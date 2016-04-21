@@ -4,7 +4,7 @@
 // Plots all the LabelMe annotations and returns the DOM element id.
 function LMplot(xml,imagename) {
   // Display image:
-  $('body').append('<svg id="canvas" width="2560" height="1920" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image id="img" xlink:href="' + imagename + '" x="0" y="0" height="1920" width="2560" /></svg>');
+  $('body').append('<svg id="canvas" width="2560" height="1920" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image id="img" xlink:href="' + imagename + '" x="0" y="0" /></svg>');
 
   // Display polygons:
   var N = $(xml).children("annotation").children("object").length;
@@ -18,8 +18,8 @@ function LMplot(xml,imagename) {
       var X = Array();
       var Y = Array();
       for(var j = 0; j < obj.children("polygon").children("pt").length; j++) {
-  X.push(parseInt(obj.children("polygon").children("pt").eq(j).children("x").text()));
-  Y.push(parseInt(obj.children("polygon").children("pt").eq(j).children("y").text()));
+        X.push(parseInt(obj.children("polygon").children("pt").eq(j).children("x").text()));
+        Y.push(parseInt(obj.children("polygon").children("pt").eq(j).children("y").text()));
       }
 
       // Draw polygon:
