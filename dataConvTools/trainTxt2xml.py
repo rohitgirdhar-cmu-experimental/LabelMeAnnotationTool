@@ -47,7 +47,7 @@ def genFromH5():
   with h5py.File(trainH5, 'r') as f:
     for imid,imname in enumerate(imgslist):
       subprocess.call('cp ' + os.path.join(himymdir, imname) + ' ' + os.path.join(imoutdir, str(imid+1) + '.jpg'), shell=True)
-      pose = f['pose-label/' + str(imid+1)].value
+      pose = f['pose-label/' + str(imid+1)].value.transpose()
       xml = genXML(pose.reshape((1,-1)).tolist(), str(imid+1) + '.jpg', 'example_folder/himym/')
       with open(os.path.join(outdir, str(imid + 1) + '.xml'), 'w') as fout:
         fout.write(xml)

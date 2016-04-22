@@ -54,6 +54,18 @@ function DrawPolygon(element_id,X,Y,obj_name,attr,scale) {
                [8, 9], // thorax      - upper neck
                [9, 10]]; // upper neck - head
 
+	colors = ['red', 'red', // ... % right leg
+          	'red', 'red', // ... % right arm
+          	'red', // ... % thorax - right arm
+	          'red', // ... % right hip - pelvis
+  	        'green', 'green', // ... % left arm
+    	      'green', // ... % thorax - left arm
+      	    'green', 'green', // ... % left leg
+        	  'green', // ... % left hip - pelvis
+          	'yellow', // ... % pelvis - thorax
+	          'yellow', // ... % thorax - upper neck
+  		      'yellow']; // % upper neck head
+
   // Create string of the points ("x1,y1 x2,y2 x3,y3 ..."):
   var poly_points = "";
   for(var i = 0; i < X.length; i++) poly_points += (scale*X[i]) + "," + (scale*Y[i]) + " ";
@@ -64,12 +76,12 @@ function DrawPolygon(element_id,X,Y,obj_name,attr,scale) {
   // Draw polygon:
 //  $('#'+element_id).append('<a xmlns="http://www.w3.org/2000/svg"> <polygon xmlns="http://www.w3.org/2000/svg" id="' + dom_id + '" points="' + poly_points + '" ' + attr + ' /><title xmlns="http://www.w3.org/2000/svg">' + obj_name + '</title></a>');
   var html = '<a xmlns="http://www.w3.org/2000/svg"> ';
-  console.log(X);
-  for (i=0; i < connected.length-1; i++) {	
-    html += '<line xmlns="http://www.w3.org/2000/svg" id="' + dom_id + '" x1="' + scale * X[connected[i][0]] + '" y1="' + scale*Y[connected[i][0]] + '" x2="' + scale*X[connected[i][1]] + '" y2="' + scale*Y[connected[i][1]] + '" ' + attr + ' />';
+  console.log(attr);
+  for (i=0; i < connected.length; i++) {
+		attr = 'stroke="' + colors[i] + '" stroke-width="4"';
+    html += '<line xmlns="http://www.w3.org/2000/svg" id="' + dom_id + '" x1="' + scale * X[connected[i][0]-1] + '" y1="' + scale*Y[connected[i][0]-1] + '" x2="' + scale*X[connected[i][1]-1] + '" y2="' + scale*Y[connected[i][1]-1] + '" ' + attr + ' />';
   }
   html += '<title xmlns="http://www.w3.org/2000/svg">' + obj_name + '</title></a>';
-  console.log(html);
   $('#'+element_id).append(html);
 
   return dom_id;
