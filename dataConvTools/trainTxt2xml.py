@@ -48,7 +48,13 @@ def genFromH5():
     for imid,imname in enumerate(imgslist):
       subprocess.call('cp ' + os.path.join(himymdir, imname) + ' ' + os.path.join(imoutdir, str(imid+1) + '.jpg'), shell=True)
       pose = f['pose-label/' + str(imid+1)].value.transpose()
-      xml = genXML(pose.reshape((1,-1)).tolist(), str(imid+1) + '.jpg', 'example_folder/himym/')
+      if pose.ndim == 2:
+        poses = pose.reshape((1,-1)).tolist()
+      elif pose.ndim == 3:
+        poses = []
+        for pid in range(pose.shape[2]):
+          poses += pose[..., pid].reshape((1,-1)).tolist()
+      xml = genXML(poses, str(imid+1) + '.jpg', 'example_folder/himym/')
       with open(os.path.join(outdir, str(imid + 1) + '.xml'), 'w') as fout:
         fout.write(xml)
 
