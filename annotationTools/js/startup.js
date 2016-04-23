@@ -233,7 +233,8 @@ function FinishStartup() {
   $('#zoomout').attr("onclick","javascript:main_media.Zoom(1.0/1.15)");
   $('#fit').attr("onclick","javascript:main_media.Zoom('fitted')");
   $('#erase').attr("onclick","javascript:main_handler.EraseSegment()");
-  $('#myCanvas_bg_div').attr("onmousedown","javascript:StartDrawEvent(event);return false;");
+  // modified by rgirdhar: to avoid it from making new polygons
+  // $('#myCanvas_bg_div').attr("onmousedown","javascript:StartDrawEvent(event);return false;");
   $('#myCanvas_bg_div').attr("oncontextmenu","javascript:return false;");
   $('#myCanvas_bg_div').attr("onmouseover","javascript:unselectObjects();");
   $('#select_canvas_div').attr("oncontextmenu","javascript:return false;");
