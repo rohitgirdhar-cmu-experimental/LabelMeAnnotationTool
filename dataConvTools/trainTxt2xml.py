@@ -2,6 +2,8 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 import os
 import h5py
 import subprocess
+import scipy.misc
+import numpy as np
 
 inpath = 'select_res.txt'
 outdir = 'LabelMeLabels/'
@@ -41,12 +43,21 @@ def genFromTxt():
       with open(os.path.join(outdir, str(lno+1) + '.xml'), 'w') as fout:
         fout.write(genXML(pose, str(lno+1) + '.jpg', 'example_folder'))
 
+def genConcatImg(qpath, mpath, outpath, GAP=5):
+  Q = scipy.misc.imread(qpath)
+  M = scipy.misc.imread(mpath)
+  M = scipy.misc.imresize(M, (Q.shape[1] * 1.0) / M.shape[1])
+  R = np.concatenate((Q, np.zeros((GAP,Q.shape[1],Q.shape[2])), M), axis=0)
+  scipy.misc.imsave(outpath, R)
+
 def genFromH5():
   with open(trainH5 + '.imlist', 'r') as f:
     imgslist = f.read().splitlines()
+  with open(trainH5 + '.mlist', 'r') as f:
+    mlist = f.read().splitlines()
   with h5py.File(trainH5, 'r') as f:
     for imid,imname in enumerate(imgslist):
-      subprocess.call('cp ' + os.path.join(himymdir, imname) + ' ' + os.path.join(imoutdir, str(imid+1) + '.jpg'), shell=True)
+      I = genConcatImg(os.path.join(himymdir, imname), os.path.join(himymdir, mlist[imid]), os.path.join(imoutdir, str(imid+1) + '.jpg'))
       pose = f['pose-label/' + str(imid+1)].value.transpose()
       if pose.ndim == 2:
         poses = pose.reshape((1,-1)).tolist()
