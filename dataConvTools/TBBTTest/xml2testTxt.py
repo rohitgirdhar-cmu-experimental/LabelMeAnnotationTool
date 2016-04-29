@@ -1,0 +1,40 @@
+import xml.etree.ElementTree as ET
+import os
+import h5py
+import subprocess
+import scipy.misc
+import numpy as np
+
+inpath = 'test_set.txt'
+labeldir = 'LabelMeLabels/'
+outpath = 'test_set_corrected.txt'
+imoutdir = 'Images/'
+imgsdir = '/mnt/colossus/Work/public_html/Work/Datasets/0006_TVShows/Data/frames/005_TBBT/'
+correctedDir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/Annotations/example_folder/TBBTTest/'
+cur_labeled = range(1, 70+1) + range(94, 130+1) # only these images have been labeled
+
+def readXML(fname):
+  tree = ET.parse(fname)
+  objs = tree.findall('object')
+  assert(len(objs) == 1)  # for this case each image had only one pose
+  obj = objs[0]
+  if obj.find('deleted') is not None and obj.find('deleted').text == '1':
+    return None
+  polygon = obj.find('polygon')
+  pose = []
+  for pt in polygon.findall('pt'):
+    pose.append(pt.find('x').text)
+    pose.append(pt.find('y').text)
+  return pose
+
+def genFromTxt():
+  with open(inpath, 'r') as f, open(outpath, 'w') as fout:
+    for lno,line in enumerate(f.read().splitlines()):
+      if lno+1 in cur_labeled:
+        elts = line.split()
+        pose = readXML(os.path.join(correctedDir, str(lno+1) + '.xml'))
+        if pose:
+          fout.write('%s %s %s\n' % (elts[0], ' '.join(pose), elts[-1]))
+
+if __name__ == '__main__':
+  genFromTxt()
