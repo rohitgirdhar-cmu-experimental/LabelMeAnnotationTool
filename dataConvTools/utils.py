@@ -1,3 +1,7 @@
+import scipy.misc
+import numpy as np
+from xml.etree.ElementTree import Element, SubElement, tostring
+
 def genConcatImg(qpath, mpath, outpath, GAP=5):
   Q = scipy.misc.imread(qpath)
   M = scipy.misc.imread(mpath)
