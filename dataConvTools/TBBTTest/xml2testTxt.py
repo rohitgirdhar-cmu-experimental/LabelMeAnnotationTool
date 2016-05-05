@@ -21,7 +21,7 @@ def genFromTxt():
     for lno,line in enumerate(f.read().splitlines()):
       if lno+1 in cur_labeled:
         elts = line.split()
-        pose = readXML(os.path.join(correctedDir, str(lno+1) + '.xml'))
+        pose = readXML(os.path.join(correctedDir, str(lno+1) + '.xml'))[0]
         if pose:
           fout.write('%s %s %s\n' % (elts[0], ' '.join(pose), elts[-1]))
 
