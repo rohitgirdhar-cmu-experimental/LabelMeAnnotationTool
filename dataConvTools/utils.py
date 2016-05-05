@@ -34,3 +34,17 @@ def genXML(poses, fname, foldname):
       curpos += 1
   return tostring(root)
 
+def readXML(fname):
+  tree = ET.parse(fname)
+  objs = tree.findall('object')
+  assert(len(objs) == 1)  # for this case each image had only one pose
+  obj = objs[0]
+  if obj.find('deleted') is not None and obj.find('deleted').text == '1':
+    return None
+  polygon = obj.find('polygon')
+  pose = []
+  for pt in polygon.findall('pt'):
+    pose.append(pt.find('x').text)
+    pose.append(pt.find('y').text)
+  return pose
+
