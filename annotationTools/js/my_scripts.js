@@ -83,6 +83,7 @@ function ShowNextImage() {
   else {
     main_media.GetFileInfo().FetchImage();
     LoadNewMedia();
+    console.log('Doing ' + main_media.GetFileInfo().GetImagePath());
   }
 }
 
