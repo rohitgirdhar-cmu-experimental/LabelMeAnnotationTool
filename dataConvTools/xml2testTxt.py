@@ -28,9 +28,12 @@ def genFromH5():
     for imid,imname in enumerate(imgslist):
       out_imname = '%08d' % (imid + 1)
       poses = readXML(os.path.join(correctedDir, out_imname + '.xml'))
+      if poses is None:
+          poses = []
+      fout.write('%s %s %d\n' % (imname, mlist[imid], len(poses)))
       if poses:
         for pose in poses:
-          fout.write('%s %s\n' % (imname, ' '.join(pose)))
+          fout.write('%s\n' % (' '.join(pose)))
 
 if __name__ == '__main__':
   genFromH5()
