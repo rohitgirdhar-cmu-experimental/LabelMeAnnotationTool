@@ -29,6 +29,11 @@ def genFromTxt():
       poses = []
       for pid in range(int(elts[2])):
         poses.append(next(f).split())
+        try:
+          assert(len(poses[-1]) == 34)
+        except:
+          import pdb
+          pdb.set_trace()
       xml = genXML(poses, out_imname + '.jpg', collectionName)
       with open(os.path.join(annotOutdir, out_imname + '.xml'), 'w') as fout:
         fout.write(xml)
