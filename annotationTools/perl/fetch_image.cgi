@@ -3,6 +3,7 @@
 use strict;
 use CGI;
 use CGI::Carp qw ( fatalsToBrowser );
+use CGI::Carp 'fatalsToBrowser';
 
 require 'globalvariables.pl';
 use vars qw($LM_HOME);
@@ -16,12 +17,39 @@ my $image = $query->param("image");
 
 my $im_dir;
 my $im_file;
+#if($mode eq "i") {
+#    my $fname = $LM_HOME . "annotationCache/DirLists/$collection.txt";
+#    
+#    if(!open(FP,$fname)) {
+#	print "Status: 404\n\n";
+#	return;
+#    }
+#    
+#    open(NUMLINES,"wc -l $fname |");
+#    my $numlines = <NUMLINES>;
+#    ($numlines,my $bar) = split(" DirLists",$numlines);
+#    close(NUMLINES);
+#    
+#    my $line = int(rand($numlines))+1;
+#    
+#    for(my $i=1; $i < $line; $i++) {
+#	my $garbage = readline(FP);
+#    }
+#    
+#    my $fileinfo = readline(FP);
+#    ($im_dir,$im_file) = split(",",$fileinfo);
+#    $im_file =~ tr/"\n"//d; # remove trailing newline
+#    
+#    close(FP);
+#} elsif($mode eq "n") {  
 if($mode eq "i") {
+    ## Written by rgirdhar
+    # Go to the next line in the file
     my $fname = $LM_HOME . "annotationCache/DirLists/$collection.txt";
     
     if(!open(FP,$fname)) {
-	print "Status: 404\n\n";
-	return;
+	    print "Status: 404\n\n";
+    	return;
     }
     
     open(NUMLINES,"wc -l $fname |");
@@ -29,10 +57,16 @@ if($mode eq "i") {
     ($numlines,my $bar) = split(" DirLists",$numlines);
     close(NUMLINES);
     
-    my $line = int(rand($numlines))+1;
+    # my $line = int(rand($numlines))+1;
+    my $line=$numlines;
     
-    for(my $i=1; $i < $line; $i++) {
-	my $garbage = readline(FP);
+    for(my $i=1; $i <= $line; $i++) {
+    	my $garbage = readline(FP);
+      (my $fname, my $iname) = split(",",$garbage);
+      $iname =~ tr/"\n"//d; # remove trailing newline
+      if($iname eq $image) {
+        last;
+      }
     }
     
     my $fileinfo = readline(FP);
@@ -41,6 +75,7 @@ if($mode eq "i") {
     
     close(FP);
 }
+
 elsif($mode eq "c") {
     opendir(DIR,$LM_HOME . "Images/users/$username/$collection") || die("Cannot read collections");
     my @all_images = readdir(DIR);
