@@ -6,14 +6,20 @@ import scipy.misc
 import numpy as np
 from utils import genXML, genConcatImg
 
-inpath = 'select_res.txt'
-trainH5 = '002_HIMYMData_clust50.h5_2'
-labelmedir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/'
-collectionName = 'himym'
-himymdir = '/mnt/colossus/Work/public_html/Work/Datasets/0006_TVShows/Data/frames/004_HIMYMFull/'
+# inpath = 'select_res.txt'
+if 0:
+  trainH5 = '002_HIMYMData_clust50.h5_2'
+  labelmedir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/'
+  collectionName = 'himym'
+  himymdir = '/mnt/colossus/Work/public_html/Work/Datasets/0006_TVShows/Data/frames/004_HIMYMFull/'
+elif 1:
+  trainH5 = 'TBBTData/001_TBBTData.h5'
+  labelmedir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/'
+  collectionName = 'TBBTDataPositive'
+  himymdir = '/mnt/colossus/Work/public_html/Work/Datasets/0006_TVShows/Data/frames/005_TBBT/'
 
-imOutdir = os.path.join(labelmedir, 'Images/', collectionName); subprocess.call('mkdir -p ' + imOutdir, shell=True)
-annotOutdir = os.path.join(labelmedir, 'Annotations/', collectionName); subprocess.call('mkdir -p ' + annotOutdir, shell=True)
+imOutdir = os.path.join(labelmedir, 'Images/', collectionName); subprocess.call('rm -r %s && mkdir -p %s'  % (imOutdir, imOutdir), shell=True)
+annotOutdir = os.path.join(labelmedir, 'Annotations/', collectionName); subprocess.call('rm -r %s && mkdir -p %s'  % (annotOutdir, annotOutdir), shell=True)
 listOutpath = os.path.join(labelmedir, 'annotationCache/DirLists/', collectionName + '.txt')
 
 def genFromTxt():
