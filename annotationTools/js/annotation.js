@@ -161,6 +161,7 @@ function annotation(anno_id) {
     // Draw a polygon given this annotation's control points.
     this.DrawPolygon = function (im_ratio, xp, yp) {
         var obj_name = LMgetObjectField(LM_xml,this.anno_id,'name');
+        var isDeleted = LMgetObjectField(LM_xml, this.anno_id, 'deleted');
 
         // Determine if an angle has been labeled:
         var strtok = obj_name.split(/ /);
@@ -182,6 +183,9 @@ function annotation(anno_id) {
         else {
             // Draw a polygon:
             var attr = 'fill="none" stroke="' + HashObjectColor(obj_name) + '" stroke-width="4"';
+            if(isDeleted) {
+              obj_name = obj_name.concat(':deleted')
+            }
             this.polygon_id = DrawPolygon(this.div_attach,xp,yp,obj_name,attr,im_ratio);
         }
         return this.polygon_id;

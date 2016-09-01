@@ -72,7 +72,7 @@ var action_DeleteExistingObjects = 0;
 
 // Which polygons are visible:
 var view_Existing = 1;
-var view_Deleted = 0;
+var view_Deleted = 1;
 
 // Flag for right-hand object list:
 var view_ObjList = true;
