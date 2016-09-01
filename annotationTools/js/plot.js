@@ -4,6 +4,7 @@
 // Plots all the LabelMe annotations and returns the DOM element id.
 function LMplot(xml,imagename) {
   // Display image:
+  debugger;
   $('body').append('<svg id="canvas" width="2560" height="1920" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image id="img" xlink:href="' + imagename + '" x="0" y="0" /></svg>');
 
   // Display polygons:
@@ -26,6 +27,23 @@ function LMplot(xml,imagename) {
       var attr = 'fill="none" stroke="' + HashObjectColor(name) + '" stroke-width="4"';
       var scale = 1;
       DrawPolygon('canvas',X,Y,name,attr,scale);
+    }
+    if(parseInt(obj.children("deleted").text())) {
+      // Get object name:
+      var name = obj.children("name").text();
+
+      // Get points:
+      var X = Array();
+      var Y = Array();
+      for(var j = 0; j < obj.children("polygon").children("pt").length; j++) {
+        X.push(parseInt(obj.children("polygon").children("pt").eq(j).children("x").text()));
+        Y.push(parseInt(obj.children("polygon").children("pt").eq(j).children("y").text()));
+      }
+
+      // Draw polygon:
+      var attr = 'fill="none" stroke="' + HashObjectColor(name) + '" stroke-width="4"';
+      var scale = 1;
+      DrawPolygon2('canvas',X,Y,name,attr,scale);
     }
   }
 
@@ -86,6 +104,64 @@ function DrawPolygon(element_id,X,Y,obj_name,attr,scale) {
 
   return dom_id;
 }
+
+
+// Draws a polygon.  Returns DOM element id of drawn polygon.
+//   element_id - String containing DOM element id to attach to.
+//   X - Array with X coordinates.
+//   Y - Array with Y coordinates.
+//   obj_name - String with object name (empty string if no name).
+//   attr - String containing polygon attributes.
+//   scale - Scalar value to scale X,Y coordinates (optional).
+function DrawPolygon2(element_id,X,Y,obj_name,attr,scale) {
+  
+  // IEF Pose connectivity
+  connected = [[1, 2], [2, 3], // right leg
+               [11, 12], [12, 13], // right arm
+               [8, 13], // thorax - right arm
+               [3, 7], // right hip    - pelvis
+               [14, 15], [15, 16], // left arm
+               [8, 14], // thorax - left arm
+               [4, 5], [5, 6], // left leg
+               [4, 7], // left hip    - pelvis
+               [7, 8], // pelvis      - thorax
+               [8, 9], // thorax      - upper neck
+               [9, 10]]; // upper neck - head
+
+  colors = ['blue', 'blue', // ... % right leg
+            'blue', 'blue', // ... % right arm
+            'blue', // ... % thorax - right arm
+            'blue', // ... % right hip - pelvis
+            'blue', 'blue', // ... % left arm
+            'blue', // ... % thorax - left arm
+            'blue', 'blue', // ... % left leg
+            'blue', // ... % left hip - pelvis
+            'blue', // ... % pelvis - thorax
+            'blue', // ... % thorax - upper neck
+            'blue']; // % upper neck head
+
+  // Create string of the points ("x1,y1 x2,y2 x3,y3 ..."):
+  var poly_points = "";
+  for(var i = 0; i < X.length; i++) poly_points += (scale*X[i]) + "," + (scale*Y[i]) + " ";
+  
+  // Get drawn object DOM element id:
+  var dom_id = element_id + '_obj' + $('#'+element_id).children().length + '_' + Math.floor(Math.random()*100000);
+
+  // Draw polygon:
+//  $('#'+element_id).append('<a xmlns="http://www.w3.org/2000/svg"> <polygon xmlns="http://www.w3.org/2000/svg" id="' + dom_id + '" points="' + poly_points + '" ' + attr + ' /><title xmlns="http://www.w3.org/2000/svg">' + obj_name + '</title></a>');
+  var html = '<a xmlns="http://www.w3.org/2000/svg"> ';
+  console.log(attr);
+  for (i=0; i < connected.length; i++) {
+    attr = 'stroke="' + colors[i] + '" stroke-width="4"';
+    html += '<line xmlns="http://www.w3.org/2000/svg" id="' + dom_id + '" x1="' + scale * X[connected[i][0]-1] + '" y1="' + scale*Y[connected[i][0]-1] + '" x2="' + scale*X[connected[i][1]-1] + '" y2="' + scale*Y[connected[i][1]-1] + '" ' + attr + ' />';
+  }
+  html += '<title xmlns="http://www.w3.org/2000/svg">' + obj_name + '</title></a>';
+  $('#'+element_id).append(html);
+
+  return dom_id;
+}
+
+
 
 // Draw a flag given a point (X,Y).  Returns DOM element id of drawn flag.
 //   element_id - String containing DOM element id to attach to.

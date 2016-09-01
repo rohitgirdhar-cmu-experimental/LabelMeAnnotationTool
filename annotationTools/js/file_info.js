@@ -312,7 +312,7 @@ function file_info() {
     
     /** Fetch next image. */
     this.FetchImage = function () {
-        var url = 'annotationTools/perl/fetch_image.cgi?mode=' + this.mode + '&username=' + username + '&collection=' + this.collection.toLowerCase() + '&folder=' + this.dir_name + '&image=' + this.im_name;
+        var url = 'annotationTools/perl/fetch_image.cgi?mode=' + this.mode + '&username=' + username + '&collection=' + this.collection + '&folder=' + this.dir_name + '&image=' + this.im_name;
         var im_req;
         // branch for native XMLHttpRequest object
         if (window.XMLHttpRequest) {
@@ -332,11 +332,12 @@ function file_info() {
             this.im_name = im_req.responseXML.getElementsByTagName("file")[0].firstChild.nodeValue;
         }
         else {
+            debugger;
             alert('Fatal: there are problems with fetch_image.cgi');
         }
     };
     this.PreFetchImage = function () {
-        var url = 'annotationTools/perl/fetch_image.cgi?mode=' + this.mode + '&username=' + username + '&collection=' + this.collection.toLowerCase() + '&folder=' + this.dir_name + '&image=' + this.im_name;
+        var url = 'annotationTools/perl/fetch_image.cgi?mode=' + this.mode + '&username=' + username + '&collection=' + this.collection + '&folder=' + this.dir_name + '&image=' + this.im_name;
         var im_req;
         // branch for native XMLHttpRequest object
         if (window.XMLHttpRequest) {

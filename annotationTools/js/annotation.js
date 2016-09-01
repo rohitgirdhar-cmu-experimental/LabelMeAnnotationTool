@@ -152,6 +152,7 @@ function annotation(anno_id) {
                 this.SetCSS('cursor','pointer');
                 break;
             default:
+                this.SetAttribute('onmousedown','StartEditEvent(' + this.anno_id + ',evt); return false;');
             alert('Unknown action_type');
         }
     };
