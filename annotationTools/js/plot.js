@@ -7,6 +7,7 @@ function LMplot(xml,imagename) {
   debugger;
   $('body').append('<svg id="canvas" width="2560" height="1920" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><image id="img" xlink:href="' + imagename + '" x="0" y="0" /></svg>');
 
+  // XIAOLONG's edits to make the deleted poses visible, not work though.
   // Display polygons:
   var N = $(xml).children("annotation").children("object").length;
   for(var i = 0; i < N; i++) {
