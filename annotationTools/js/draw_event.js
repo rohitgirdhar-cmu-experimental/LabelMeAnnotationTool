@@ -12,7 +12,6 @@ function StartDrawEvent(event) {
   
   // Write message to the console:
   console.log('LabelMe: Starting draw event...');
-  debugger;
 
   // If we are hiding all polygons, then clear the main canvas:
   if(IsHidingAllPolygons) {

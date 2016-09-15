@@ -8,17 +8,10 @@ import urllib, cStringIO
 import urlparse
 from utils import genXML, genConcatImg
 
-if 0:
-  inpath = 'pairs_216.txt'
-  labelmedir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/'
-  collectionName = 'himym_traj'
-  himymdir = 'http://ladoga.graphics.cs.cmu.edu/xiaolonw/affordance/frames_prune/'
-elif 1:
-  inpath = 'TBBTData/pairs_TBBT54.txt'
-  labelmedir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/'
-  collectionName = 'tbbt_traj'
-  himymdir = 'http://ladoga.graphics.cs.cmu.edu/xiaolonw/affordance_TBBT/frames_prune/'
-
+inpath = 'pairs_216.txt'
+labelmedir = '/mnt/colossus/Work/public_html/Work/Projects/0006_Affordances/0012_PoseLabelTool/LabelMeAnnotationTool/'
+collectionName = 'himym_traj'
+himymdir = 'http://ladoga.graphics.cs.cmu.edu/xiaolonw/affordance/frames_prune/'
 
 imOutdir = os.path.join(labelmedir, 'Images/', collectionName); subprocess.call('mkdir -p ' + imOutdir, shell=True)
 annotOutdir = os.path.join(labelmedir, 'Annotations/', collectionName); subprocess.call('mkdir -p ' + annotOutdir, shell=True)

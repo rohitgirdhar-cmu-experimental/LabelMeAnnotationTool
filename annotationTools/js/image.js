@@ -18,7 +18,6 @@ function image(id) {
     this.file_info = new file_info();
     this.id = id;
     this.im = document.getElementById(this.id);
-    this.match_im = document.getElementById('match_canvas');
     this.width_orig;
     this.height_orig;
     this.width_curr;  //current width and height of the image itself
@@ -38,9 +37,7 @@ function image(id) {
      * will call obj.SetImageDimensions().
     */
     this.GetNewImage = function(onload_helper) {
-	      console.log('new image');
-        console.log('HERE:' + this.file_info.GetImagePath());
-        this.im.src = this.file_info.GetImagePath();
+	console.log('new image');
         document.getElementById('loading').style.visibility = 'visible';
         if(IsMicrosoft()) this.im.style.visibility = 'hidden';
         else this.im.style.display = 'none';

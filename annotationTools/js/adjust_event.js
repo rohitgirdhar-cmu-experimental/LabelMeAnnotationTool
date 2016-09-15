@@ -74,8 +74,7 @@ function AdjustEvent(dom_attach,x,y,obj_name,ExitFunction,scale, bounding_box_an
     console.log('LabelMe: Starting adjust event...');
     // Draw polygon:
 
-    // this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
-    this.polygon_id = this.DrawPose(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
+    this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
     select_anno.polygon_id = this.polygon_id;
     FillPolygon(this.polygon_id);
     if (video_mode){
@@ -274,8 +273,7 @@ function AdjustEvent(dom_attach,x,y,obj_name,ExitFunction,scale, bounding_box_an
       console.log(this.polygon_id);
       $('#'+this.polygon_id).parent().remove();
       $('#'+this.polygon_id).remove();
-      // this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
-      this.polygon_id = this.DrawPose(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
+      this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
       select_anno.polygon_id = this.polygon_id;
       // Adjust control points:
 
@@ -347,8 +345,7 @@ function AdjustEvent(dom_attach,x,y,obj_name,ExitFunction,scale, bounding_box_an
       //if ($('#'+this.polygon_id).is('image')) $('#'+this.polygon_id).remove();
       $('#'+this.polygon_id).parent().remove();
       $('#'+this.polygon_id).remove();
-      // this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
-      this.polygon_id = this.DrawPose(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
+      this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
       select_anno.polygon_id = this.polygon_id;
       // Adjust control points:
       this.RemoveControlPoints();
@@ -428,9 +425,7 @@ function AdjustEvent(dom_attach,x,y,obj_name,ExitFunction,scale, bounding_box_an
       // Remove polygon and redraw:
       //if ($('#'+this.polygon_id).is('image')) $('#'+this.polygon_id).remove();
       $('#'+this.polygon_id).parent().remove();
-      console.log('Removing: ' + this.polygon_id)
-      // this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
-      this.polygon_id = this.DrawPose(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
+      this.polygon_id = this.DrawPolygon(this.dom_attach,this.x,this.y,this.obj_name,this.scale);
       select_anno.polygon_id = this.polygon_id;
 
       // Redraw center of mass:
@@ -509,12 +504,5 @@ function AdjustEvent(dom_attach,x,y,obj_name,ExitFunction,scale, bounding_box_an
     
     var attr = 'fill="none" stroke="' + HashObjectColor(obj_name) + '" stroke-width="4"';
     return DrawPolygon(dom_id,x,y,obj_name,attr,scale);
-  };
-
-  this.DrawPose = function(dom_id,x,y,obj_name,scale) {
-    if(x.length==1) return DrawFlag(dom_id,x[0],y[0],obj_name,scale);
-
-    var attr = 'stroke="' + HashObjectColor(obj_name) + '" stroke-width="4"';
-    return DrawPose(dom_id,x,y,obj_name,attr,scale);
   };
 }

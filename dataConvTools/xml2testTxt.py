@@ -28,8 +28,6 @@ def genFromH5():  # rohit
     mlist = f.read().splitlines()
   with h5py.File(inpath, 'r') as f, open(outpath, 'w') as fout:
     for imid,imname in enumerate(imgslist):
-      if imid > nLabeled:
-        break
       out_imname = '%08d' % (imid + 1)
       poses = readXML(os.path.join(correctedDir, out_imname + '.xml'))
       if poses is None:
@@ -45,24 +43,10 @@ if __name__ == '__main__':
     outpath = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/004_HIMYMFull/014_ManualFineFix/Fixed/001_HIMYM.txt'
     correctedDir = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/004_HIMYMFull/014_ManualFineFix/XML/himym/'
     method = genFromH5
-  elif 0:
+  elif 1:
     inpath = '/nfs/ladoga_no_backups/users/xiaolonw/affordance/pairs_216.txt'
     outpath = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/004_HIMYMFull/014_ManualFineFix/Fixed/002_HIMYM_traj.txt'
     correctedDir = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/004_HIMYMFull/014_ManualFineFix/XML/himym_traj/'
     method = genFromTxt
-  elif 0:
-    inpath = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/005_TBBT/009_Datasets/002_TrainingData/001_TBBTData.h5'
-    outpath = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/005_TBBT/014_ManualFineFix/Fixed/001_TBBT.txt'
-    correctedDir = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/005_TBBT/014_ManualFineFix/XML/TBBTDataPositive/'
-    nLabeled = 998
-    method = genFromH5
-  elif 1:
-    inpath = '/nfs/ladoga_no_backups/users/xiaolonw/affordance_TBBT/pairs_TBBT54.txt'
-    outpath = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/005_TBBT/014_ManualFineFix/Fixed/002_TBBT_traj.txt'
-    correctedDir = '/home/rgirdhar/Work/Data/014_TVShows/processed/Scratch/005_TBBT/014_ManualFineFix/XML/tbbt_traj/'
-    method = genFromTxt
 
-
-  if 'nLabeled' not in locals():
-    nLabeled = float('inf')  # all images
   method()

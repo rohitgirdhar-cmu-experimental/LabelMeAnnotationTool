@@ -6,7 +6,13 @@ import xml.etree.ElementTree as ET
 def genConcatImg(qpath, mpath, outpath, GAP=5):
   Q = scipy.misc.imread(qpath)
   M = scipy.misc.imread(mpath)
-  M = scipy.misc.imresize(M, (Q.shape[1] * 1.0) / M.shape[1])
+  # M = scipy.misc.imresize(M, (Q.shape[1] * 1.0) / M.shape[1])
+  M = scipy.misc.imresize(M, (Q.shape[0], Q.shape[1], Q.shape[2])) 
+
+  if Q.shape[0] != M.shape[0] or Q.shape[1] != M.shape[1]: 
+    print(qpath)
+    print(mpath)
+
   R = np.concatenate((Q, np.zeros((GAP,Q.shape[1],Q.shape[2])), M), axis=0)
   scipy.misc.imsave(outpath, R)
 
