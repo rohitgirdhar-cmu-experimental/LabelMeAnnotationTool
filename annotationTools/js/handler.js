@@ -117,9 +117,10 @@ function handler() {
     // the edit popup bubble.
     this.EditBubbleDeleteButton = function () {
         var idx = select_anno.GetAnnoID();
+        isDeleted = LMgetObjectField(LM_xml,select_anno.anno_id,'deleted');
 
         if((IsUserAnonymous() || (!IsCreator(LMgetObjectField(LM_xml, idx, 'username')))) && (!IsUserAdmin()) && (idx<num_orig_anno) && !action_DeleteExistingObjects) {
-            alert('You do not have permission to delete this polygon');
+            alert('You do not have permission to delete/undelete this polygon');
             return;
         }
         
@@ -136,10 +137,16 @@ function handler() {
         InsertServerLogData('cpts_not_modified');
         
         // Set <deleted> in LM_xml:
-        LMsetObjectField(LM_xml, idx, "deleted", "1");
+	if (isDeleted) {
+		LMsetObjectField(LM_xml, idx, "deleted", "0");
+	} else {
+		LMsetObjectField(LM_xml, idx, "deleted", "1");
+	}
         
         // Remove all the part dependencies for the deleted object
-        removeAllParts(idx);
+	if (! isDeleted) {
+	        removeAllParts(idx);
+	}
         
         // Write XML to server:
         WriteXML(SubmitXmlUrl,LM_xml,function(){return;});
